@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Traceability — Supply Chain Demo</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Hệ thống truy xuất nguồn gốc — Demo</h1>
+      <p class="lead">Kiến trúc: Người dùng → Web/App → API → Blockchain (consortium) → Off-chain DB</p>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <nav class="sidebar card">
+      <ul id="menu">
+        <li class="active" data-tab="farmers">1. Quản lý Nông dân & Hợp tác xã</li>
+        <li data-tab="batches">2. Quản lý Lô hàng & QR</li>
+        <li data-tab="qr">3. Truy xuất bằng QR</li>
+        <li data-tab="reports">4. Báo cáo Admin</li>
+      </ul>
+    </nav>
+
+    <section class="content card">
+      <!-- FARMERS TAB -->
+      <div data-tab-content="farmers" class="tabpane">
+        <h2>Quản lý Nông dân & Hợp tác xã</h2>
+        <p class="muted">Danh sách nông dân, public keys (để chữ ký số), liên kết tới hợp tác xã.</p>
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Danh sách nông dân</strong>
+              <button id="addFarmerBtn" class="btn primary small">Thêm nông dân</button>
+            </div>
+            <table id="farmersTable" class="table">
+              <thead><tr><th>Id</th><th>Tên</th><th>Hợp tác xã</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <aside class="panel small">
+            <strong>Thông tin HTX</strong>
+            <div id="coopInfo" class="muted">HTX demo — địa chỉ, số thành viên, chứng nhận chất lượng</div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- BATCHES TAB -->
+      <div data-tab-content="batches" class="tabpane" hidden>
+        <h2>Quản lý Lô hàng (Batch)</h2>
+        <p class="muted">Tạo lô, cập nhật trạng thái, ghi event on-chain (mô phỏng), đính kèm chứng nhận (off-chain).</p>
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Danh sách lô hàng</strong>
+              <button id="createBatchBtn" class="btn primary small">Tạo lô</button>
+            </div>
+            <table id="batchesTable" class="table">
+              <thead><tr><th>BatchId</th><th>Farmer</th><th>Ngày</th><th>Trạng thái</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <aside class="panel">
+            <strong>Tạo QR cho lô</strong>
+            <input id="qrInput" placeholder="VD: BATCH-20250918-001" />
+            <button id="genQrBtn" class="btn primary small">Tạo QR</button>
+            <canvas id="qrCanvas" width="220" height="220" class="qr"></canvas>
+            <div class="muted" id="qrLabel">Mã lô: —</div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- QR TAB -->
+      <div data-tab-content="qr" class="tabpane" hidden>
+        <h2>Truy xuất bằng QR</h2>
+        <p class="muted">Khách hàng quét QR để xem timeline events và tài liệu off-chain.</p>
+        <div class="panel">
+          <div class="row">
+            <input id="scanInput" placeholder="Dán mã lô hoặc quét QR" />
+            <button id="scanBtn" class="btn primary small">Tra cứu</button>
+          </div>
+          <div id="timelineBox" class="timeline"></div>
+        </div>
+      </div>
+
+      <!-- REPORTS TAB -->
+      <div data-tab-content="reports" class="tabpane" hidden>
+        <h2>Báo cáo Admin</h2>
+        <p class="muted">Thống kê theo HTX, trạng thái chất lượng, export CSV/JSON.</p>
+        <div class="panel">
+          <div class="stats">
+            <div><strong id="statCoops">—</strong><span>HTX</span></div>
+            <div><strong id="statFarmers">—</strong><span>Nông dân</span></div>
+            <div><strong id="statBatches">—</strong><span>Lô hàng</span></div>
+          </div>
+          <div id="chart" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Demo educational project — chuẩn bị để nối API & smart contract.</small>
+    </div>
+  </footer>
+
+  <!-- modal -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-box">
+      <header><h3 id="modalTitle">Modal</h3></header>
+      <div id="modalBody"></div>
+      <footer><button id="modalClose" class="btn secondary small">Đóng</button></footer>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
